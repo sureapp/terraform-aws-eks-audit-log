@@ -253,7 +253,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "eks_audit_log_bucket_lifecycle
 
 // v4 s3 bucket changes
 resource "aws_s3_bucket_versioning" "export_versioning" {
-  count  = var.use_existing_bucket ? 0 : 1  
+  count  = var.use_existing_bucket ? 0 : 1
   bucket = aws_s3_bucket.eks_audit_log_bucket[0].id
   versioning_configuration {
     status     = local.bucket_versioning_enabled
@@ -327,7 +327,7 @@ resource "aws_s3_bucket_versioning" "log_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket_encryption" {
-  count  = var.use_existing_access_log_bucket ? 0 : (var.bucket_logs_disabled ? 0 : local.bucket_encryption_enabled ? 1: 0)
+  count  = var.use_existing_access_log_bucket ? 0 : (var.bucket_logs_disabled ? 0 : local.bucket_encryption_enabled ? 1 : 0)
   bucket = aws_s3_bucket.log_bucket[0].id
   rule {
     apply_server_side_encryption_by_default {
@@ -422,7 +422,7 @@ resource "aws_kinesis_firehose_delivery_stream" "extended_s3_stream" {
 module "lacework_eks_audit_iam_role" {
   count                   = var.use_existing_cross_account_iam_role ? 0 : 1
   source                  = "lacework/iam-role/aws"
-  version                 = "~> 0.1"
+  version                 = "0.4.4"
   create                  = true
   iam_role_name           = local.cross_account_iam_role_name
   lacework_aws_account_id = var.lacework_aws_account_id
